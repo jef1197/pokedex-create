@@ -6,11 +6,12 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var pokeRouter = require('.//routes/pokedex')
 
 var app = express();
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://jef00:yRH31jdEef7vmDZa @cluster0.3pzgn.mongodb.net/?retryWrites=true&w=majority';
+var mongoDB = 'mongodb+srv://jef00:yRH31jdEef7vmDZa@cluster0.3pzgn.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -27,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/pokedex', usersRouter);
+app.use('/pokedex', pokeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
