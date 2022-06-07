@@ -33,13 +33,38 @@ exports.gen_detail = function(req, res, next) {
 
 // Display Generation create form on GET.
 exports.gen_create_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Generation create ');
+    res.render('gen_form', {title: 'Create Generation'})
 };
 
 // Handle Generation create on POST.
-exports.gen_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Generation create POST');
-};
+exports.gen_create_post = [
+    body('name', 'Generation name required').trim().isLength({ min: 1 }).escape(),
+
+    (req, res, next) => {
+        const errors = validationResult(req);
+
+        var gen = new Generation(
+            { name: req.body.name }
+        );
+        
+        if(!errors.isEmpty()) {
+            res.render('gen_form', {title: 'Create Generation', gen: gen, errors: errors.array});
+            return;
+        } else {
+            Generation.findOne( {'name': req.body.name }).exec(function(err, found_gen) {
+                if (err) { return next(err); }
+                if (found_gen) {
+                    res.redirect(found_gen.url);
+                } else {
+                    gen.save(function(err) {
+                        if (err) { return next(err); }
+                        res.redirect(gen.url)
+                    });
+                }
+            })
+        }
+    }
+];
 
 // Display Generation delete form on GET.
 exports.gen_delete_get = function(req, res) {
