@@ -2,7 +2,7 @@ var Pokemon = require('../models/pokemon');
 
 // Display list of all Pokemons.
 exports.index = function(req, res) {
-    res.send('NOT IMPLEMENTED: Home Page');
+    res.render('index', {title: 'PokeDex Home'});
 };
 
 // Display list of all Pokemons.
