@@ -8,7 +8,7 @@ var TypeSchema = new Schema(
 )
 
 TypeSchema.virtual('url').get(function() {
-    return '/pokedex/types/' + this._id;
+    return '/pokedex/typing/' + this._id;
 });
 
 module.exports = mongoose.model('Type', TypeSchema)

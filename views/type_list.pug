@@ -1,0 +1,12 @@
+extends layout 
+
+block content 
+  h1= title 
+
+  ul
+    each typing in list 
+      li
+        a(href=typing.url) #{typing.name}
+
+    else 
+      li There are no Types

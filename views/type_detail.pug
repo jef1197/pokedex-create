@@ -1,0 +1,14 @@
+extends layout 
+
+block content 
+  h1 Type #{typing.name} 
+
+  div 
+    h4 Pokemon
+      dl 
+        each poke in pokemon
+          dt 
+            a(href=poke.url) #{poke.name}
+
+        else 
+          p There are no Pokemon in this Type

@@ -1,13 +1,35 @@
 var Typing = require('../models/typing');
+var Pokemon = require('../models/pokemon')
+var async = require('async');
+var {body, validationResult} = require('express-validator');
+
 
 // Display list of all Typings.
 exports.typing_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Typing list');
+    Typing.find().sort().exec(function(err, list) {
+        if(err) { return next(err); }
+        res.render('type_list', {title: 'Typing List', list: list });
+    })
 };
 
 // Display detail page for a specific Typing.
 exports.typing_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: Typing detail: ' + req.params.id);
+    async.parallel( {
+        typing: function(callback) {
+            Typing.findById(req.params.id).exec(callback)
+        },
+        pokemon: function(callback) {
+            Pokemon.find( {'type': req.params.id}).exec(callback)
+        }
+    }, function(err, results) {
+        if(err) { return next(err); }
+        if (results.typing === null) {
+            var err = new Error('Generation not found');
+            err.status = 404;
+            return next(err);
+        }
+        res.render('type_detail', {title: 'Typing ', typing: results.typing, pokemon: results.pokemon })
+    })
 };
 
 // Display Typing create form on GET.
