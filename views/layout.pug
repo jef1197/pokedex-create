@@ -8,8 +8,19 @@ html
 
   body
     header 
+      h1 PokeDex
       ul
-        li Header Here
+        li 
+          a(href='/pokedex') Home
+        li
+          a(href="/pokedex/pokemons") All Pokemon 
+        li
+          a(href="/pokedex/gens") All Generation
+        li 
+          a(href="/pokedex/typings") All Typings
+        li 
+          a(href="/pokedex/poketeams") All Pokemon Teams 
+
     main 
       block content
     footer 
