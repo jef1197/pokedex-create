@@ -2,4 +2,13 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+
+  section
+    div
+      a(href='/pokedex/pokemon/create') Create your own Pokemon
+    div
+      a(href='/pokedex/gen/create') Add your own Generation
+    div
+      a(href='/pokedex/typing/create') Add your own Types
+    div
+      a(href='/pokedex/poketeam/create') Create your own Pokemon Team

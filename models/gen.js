@@ -8,7 +8,7 @@ var GenSchema = new Schema(
 )
 
 GenSchema.virtual('url').get(function() {
-    return '/pokedex/Generation/' + this._id;
+    return '/pokedex/gen/' + this._id;
 });
 
 module.exports = mongoose.model('Generation', GenSchema)
