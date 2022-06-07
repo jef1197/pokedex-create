@@ -9,7 +9,7 @@ var PokeTeamSchema = new Schema(
 )
 
 PokeTeamSchema.virtual('url').get(function() {
-    return '/pokedex/teams/' + this._id;
+    return '/pokedex/poketeam/' + this._id;
 });
 
 module.exports = mongoose.model('Poke Team', PokeTeamSchema)

@@ -1,13 +1,27 @@
 var Poketeam = require('../models/poketeam');
+var Pokemon = require('../models/pokemon')
+const { body,validationResult } = require('express-validator');
+var async = require('async');
 
 // Display list of all PokeTeams.
-exports.poketeam_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: PokeTeam list');
+exports.poketeam_list = function(req, res, next) {
+    Poketeam.find()
+        .populate('pokemon')
+        .exec(function(err, list){
+            if (err) { return next(err); }
+            res.render('poketeam_list', {title: 'PokeTeam List ', list: list})
+        })
+        
 };
 
 // Display detail page for a specific PokeTeam.
 exports.poketeam_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: PokeTeam detail: ' + req.params.id);
+    Poketeam.findById(req.params.id)
+        .populate('pokemon')
+        .exec(function(err, list){
+            if (err) { return next(err); }
+            res.render('poketeam_detail', {title: 'PokeTeam ', list: list})
+        })
 };
 
 // Display PokeTeam create form on GET.
