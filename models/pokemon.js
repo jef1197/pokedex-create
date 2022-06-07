@@ -5,8 +5,8 @@ var Schema = mongoose.Schema;
 var PokemonSchema = new Schema(
     {
         name: {type: String, required: true},
-        type: {type: Schema.Types.ObjectId, required: true, ref: 'Type'},
-        gen: {type: Schema.Types.ObjectId, required: true, ref: 'Gen'},
+        type: [{type: Schema.Types.ObjectId,  ref: 'Type'}],
+        gen: {type: Schema.Types.ObjectId,  ref: 'Gen'},
     }
 )
 

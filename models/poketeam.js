@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var PokeTeamSchema = new Schema(
     {
         title: {type: String, required: true},
-        pokemon: {type: Schema.Types.ObjectId, required: true, },
+        pokemon: [{type: Schema.Types.ObjectId, re: 'Pokemon' }],
     }
 )
 
