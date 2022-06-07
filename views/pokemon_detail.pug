@@ -1,0 +1,15 @@
+extends layout 
+
+block content 
+  h1 #{pokemon.name}
+
+  div 
+    if pokemon.type.length > 1
+      a(href=pokemon.type[0].url) #{pokemon.type[0].name} 
+      a(href=pokemon.type[1].url) #{pokemon.type[1].name} 
+    else
+      a(href=pokemon.type[0].url) #{pokemon.type[0].name}
+    
+  div 
+    //- p #{pokemon.description}
+    p #{pokemon.gen.name}

@@ -6,13 +6,24 @@ exports.index = function(req, res) {
 };
 
 // Display list of all Pokemons.
-exports.pokemon_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Pokemon list');
+exports.pokemon_list = function(req, res, next) {
+    Pokemon.find({}, 'name type')
+        .sort({name: 1})
+        .populate('type')
+        .exec(function(err, list) {
+        if(err) { return next(err); }
+        res.render('pokemon_list', {title: 'Pokemon List', list: list})
+    })
 };
 
 // Display detail page for a specific Pokemon.
-exports.pokemon_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: Pokemon detail: ' + req.params.id);
+exports.pokemon_detail = function(req, res, next) {
+    Pokemon.findById(req.params.id)
+    .populate('type')
+    .exec(function(err, pokemon) {
+    if(err) { return next(err); }
+    res.render('pokemon_detail', {title: 'Pokemon List', pokemon: pokemon})
+})
 };
 
 // Display Pokemon create form on GET.
