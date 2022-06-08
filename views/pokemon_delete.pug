@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1 #{title}:  #{pokemon.name}
+
+  if poke_team.length
+
+    p #[strong Delete the following Poke Teams before attempting to delete this Pokemon.]
+
+    div
+
+      h4 Poke Teams
+
+      dl
+      each team in poke_team
+        dt
+          a(href=team.url) #{team.title}
+
+  else 
+    p Do you really want to delete this Pokemon?
+
+    form(action="", method="POST")
+      div
+        input#pokemonid(type='hidden' name='pokemonid' required='true', value=pokemon._id )
+
+      button(type='submit') Delete

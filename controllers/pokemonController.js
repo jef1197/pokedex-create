@@ -1,6 +1,8 @@
 var Pokemon = require('../models/pokemon');
 var Generation = require('../models/gen');
 var Typing = require('../models/typing');
+var Poketeam = require('../models/poketeam');
+
 var async = require('async');
 var {body, validationResult} = require('express-validator');
 
@@ -90,13 +92,47 @@ exports.pokemon_create_post = [
 ]
 
 // Display Pokemon delete form on GET.
-exports.pokemon_delete_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Pokemon delete GET');
+exports.pokemon_delete_get = function(req, res, next) {
+    async.parallel({
+        pokemon: function(callback) {
+            Pokemon.findById(req.params.id).exec(callback)
+        },
+        poke_team: function(callback) {
+            Poketeam.find({ 'pokemon' : req.params.id }).exec(callback)
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if(results.pokemon === null ) {
+            res.redirect('/pokedex/pokemons')
+        }
+
+        res.render('pokemon_delete', {title: 'Delete Pokemon', pokemon: results.pokemon, poke_team: results.poke_team})
+    })
 };
 
 // Handle Pokemon delete on POST.
 exports.pokemon_delete_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Pokemon delete POST');
+    async.parallel({
+        pokemon: function(callback) {
+            Pokemon.findById(req.body.pokemonid).exec(callback)
+        },
+        poke_team: function(callback) {
+            Poketeam.find({ 'pokemon' : req.body.pokemonid }).exec(callback)
+        }
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if(results.poke_team.length > 0 ) {
+            res.render('pokemon_delete', {title: 'Delete Pokemon', pokemon: results.pokemon, poke_team: results.poke_team})
+            return;
+        } else {
+            Pokemon.findByIdAndDelete(req.body.pokemonid, function deletePokemon(err) {
+                if (err) { return next(err); }
+                res.redirect('/pokedex/pokemons')
+            })
+        }
+
+        
+    })
 };
 
 // Display Pokemon update form on GET.

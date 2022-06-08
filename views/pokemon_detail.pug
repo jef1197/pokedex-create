@@ -13,3 +13,9 @@ block content
   div 
     p #{pokemon.description}
     p #{pokemon.gen.name}
+
+  hr
+  p
+    a(href=pokemon.url+'/delete') Delete Pokemon
+  p
+    a(href=pokemon.url+'/update') Update Pokemon
