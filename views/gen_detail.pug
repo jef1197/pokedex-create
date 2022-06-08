@@ -5,10 +5,17 @@ block content
 
   div 
     h4 Pokemon
-      dl 
-        each poke in pokemon
-          dt 
-            a(href=poke.url) #{poke.name}
+    dl 
+      each poke in pokemon
+        dt 
+          a(href=poke.url) #{poke.name}
 
-        else 
-          p There are no Pokemon in this Generation
+      else 
+        p There are no Pokemon in this Generation
+
+
+  hr
+  p
+    a(href=gen.url+'/delete') Delete Generation
+  p
+    a(href=gen.url+'/update') Update Generation

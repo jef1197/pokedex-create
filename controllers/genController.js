@@ -68,12 +68,41 @@ exports.gen_create_post = [
 
 // Display Generation delete form on GET.
 exports.gen_delete_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Generation delete GET');
+    async.parallel({
+        gen: function(callback) {
+            Generation.findById(req.params.id).exec(callback)
+        },
+        gen_pokemon: function(callback) {
+            Pokemon.find({ 'gen': req.params.id}).exec(callback);
+        }
+    }, function( err, results ) {
+        if (err) {return next(err)}
+        //Successful, so render
+        res.render('gen_delete', {title: 'Generation Delete', gen: results.gen, gen_pokemon: results.gen_pokemon});
+    })
 };
 
 // Handle Generation delete on POST.
 exports.gen_delete_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Generation delete POST');
+    async.parallel({
+        gen: function(callback) {
+            Generation.findById(req.body.genid).exec(callback)
+        },
+        gen_pokemon: function(callback) {
+            Pokemon.find({ 'type': req.body.genid}).exec(callback);
+        }
+    }, function( err, results ) {
+        if (err) {return next(err)}
+        if (results.gen_pokemon.length > 0) {
+            res.render('gen_delete', {title: 'Delete Type', gen: results.gen, gen_pokemon: results.gen_pokemon});
+            return;
+        } else {
+            Generation.findByIdAndRemove(req.body.genid, function deleteGeneration(err){
+                if (err) { return next(err); }
+                res.redirect('/pokedex/gens')
+            })
+        }
+    })
 };
 
 // Display Generation update form on GET.

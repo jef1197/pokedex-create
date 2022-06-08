@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1 #{title}:  #{gen.name}
+
+  if gen_pokemon.length
+
+    p #[strong Delete the following Pokemon before attempting to delete this Generation.]
+
+    div(style='margin-left:20px; margin-top:20px')
+
+      h4 Books
+
+      dl
+      each pokemon in gen_pokemon
+        dt
+          a(href=pokemon.url) #{pokemon.name}
+
+  else 
+    p Do you really want to delete this Genre?
+
+    form(action="", method="POST")
+      div.form-group
+        input#genid(type='hidden',name='genid', required='true', value=gen._id )
+
+      button.btn.btn-primary(type='submit') Delete
