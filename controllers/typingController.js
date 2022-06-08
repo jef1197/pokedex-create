@@ -34,22 +34,77 @@ exports.typing_detail = function(req, res) {
 
 // Display Typing create form on GET.
 exports.typing_create_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Typing create GET');
+    res.render('type_form', {title: 'Create Type'})
 };
 
 // Handle Typing create on POST.
-exports.typing_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Typing create POST');
-};
+exports.typing_create_post = [
+    body('name', 'Type name required and uppercase').trim().isLength({ min: 1 }).escape(),
+
+    (req, res, next) => {
+        const errors = validationResult(req);
+        // string.charAt(0).toUpperCase() + string.slice(1);
+
+        var type = new Typing(
+            { name: req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1) }
+        );
+        
+        if(!errors.isEmpty()) {
+            res.render('type_form', {title: 'Create Type', typing: type, errors: errors.array});
+            return;
+        } else {
+            Typing.findOne( {'name': req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1) }).exec(function(err, found_type) {
+                if (err) { return next(err); }
+                if (found_type) {
+                    res.redirect(found_type.url);
+                } else {
+                    type.save(function(err) {
+                        if (err) { return next(err); }
+                        res.redirect(type.url)
+                    });
+                }
+            })
+        }
+    }
+];
 
 // Display Typing delete form on GET.
-exports.typing_delete_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Typing delete GET');
+exports.typing_delete_get = function(req, res, next) {
+    async.parallel({
+        typing: function(callback) {
+            Typing.findById(req.params.id).exec(callback)
+        },
+        type_pokemon: function(callback) {
+            Pokemon.find({ 'type': req.params.id}).exec(callback);
+        }
+    }, function( err, results ) {
+        if (err) {return next(err)}
+        //Successful, so render
+        res.render('type_delete', {title: 'Delete Type', typing: results.typing, type_pokemon: results.type_pokemon});
+    })
 };
 
 // Handle Typing delete on POST.
-exports.typing_delete_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Typing delete POST');
+exports.typing_delete_post = function(req, res, next) {
+    async.parallel({
+        typing: function(callback) {
+            Typing.findById(req.body.typeid).exec(callback)
+        },
+        type_pokemon: function(callback) {
+            Pokemon.find({ 'type': req.body.typeid}).exec(callback);
+        }
+    }, function( err, results ) {
+        if (err) {return next(err)}
+        if (results.type_pokemon.length > 0) {
+            res.render('type_delete', {title: 'Delete Type', typing: results.typing, type_pokemon: results.type_pokemon});
+            return;
+        } else {
+            Typing.findByIdAndRemove(req.body.typeid, function deleteType(err){
+                if (err) { return next(err); }
+                res.redirect('/pokedex/typings')
+            })
+        }
+    })
 };
 
 // Display Typing update form on GET.

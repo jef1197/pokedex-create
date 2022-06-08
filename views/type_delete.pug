@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1 #{title}:  #{typing.name}
+
+  if type_pokemon.length
+
+    p #[strong Delete the following Pokemon before attempting to delete this Type.]
+
+    div
+
+      h4 Pokemon
+
+      dl
+      each pokemon in type_pokemon
+        dt
+          a(href=pokemon.url) #{pokemon.name}
+
+  else 
+    p Do you really want to delete this Type?
+
+    form(action="", method="POST")
+      div
+        input#typeid(type='hidden',name='typeid', required='true', value=typing._id )
+
+      button(type='submit') Delete

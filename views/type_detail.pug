@@ -5,10 +5,16 @@ block content
 
   div 
     h4 Pokemon
-      dl 
-        each poke in pokemon
-          dt 
-            a(href=poke.url) #{poke.name}
+    dl 
+      each poke in pokemon
+        dt 
+          a(href=poke.url) #{poke.name}
 
-        else 
-          p There are no Pokemon in this Type
+      else 
+        p There are no Pokemon in this Type
+
+  hr
+  p
+    a(href=typing.url+'/delete') Delete Type
+  p
+    a(href=typing.url+'/update') Update Type
