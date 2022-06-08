@@ -1,0 +1,54 @@
+extends layout 
+
+block content 
+  h1= title 
+
+  form(action="", method="post") 
+    div 
+      label(for="name") Name:
+      input#pokeName(type='text' name='name' placeholder='Name of Pokemon' required='true' value=(undefined===pokemon ? '' : pokemon.name))
+    div 
+      label(for="generation") Generation:
+      select#pokeGen(type='select' placeholder='Select Generation' required='true' name='generation')
+        for generation in generations
+          if pokemon
+            option( value=generation._id selected=( generation._id.toString()===pokemon.generation._id || generation._id.toString()===pokemon.generation ? 'selected' : false) ) #{generation.name}
+          else 
+            option( value=generation._id) #{generation.name} 
+    div 
+      label(for="description") Description:
+      textarea#pokeDesc(type='textarea' name='description' cols="30", rows="10" placeholder='Describe your pokemon') #{undefined===pokemon ? '' : pokemon.description}
+    div 
+      label(for="height") Height(cm):
+      input#pokeHeight(type='text' name='height'  placeholder='Pokemon height' value=(undefined===pokemon ? '' : pokemon.height)) 
+    div 
+      label(for="weight") Weight(kg):
+      input#pokeWeight(type='text' name='weight' placeholder='Pokemon Weight' value=(undefined===pokemon ? '' : pokemon.weight)) 
+    div 
+      label(for="") Type:
+      div
+        for typing in typings
+          div 
+            input.ckType(type='checkbox' name='typing' onclick="return ckLimit()" id=typing._id value=typing._id checked=typing.checked)
+            label(for=typing._id) #{typing.name}
+    button(type='submit') Submit
+
+    script.
+        function ckLimit() {
+            var limit = 2;
+            var total = 0;
+            var checkType = document.getElementsByClassName('ckType');
+            var x = checkType.length;
+            for (var i = 0; i < x; i++) {
+                if (checkType[i].checked) {
+                    total += 1;
+                }
+                if (total > limit) {
+                    alert(`Please select only ${limit}`);
+                    this.checked = false;
+                    return false;
+                }
+            }
+        }
+
+

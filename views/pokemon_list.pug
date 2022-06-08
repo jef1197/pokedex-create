@@ -7,11 +7,8 @@ block content
     each pokemon in list 
       li 
         a(href=pokemon.url) #{pokemon.name} 
-        if pokemon.type.length > 1
-          a(href=pokemon.type[0].url) #{pokemon.type[0].name} 
-          a(href=pokemon.type[1].url) #{pokemon.type[1].name}
-        else
-          a(href=pokemon.type[0].url) #{pokemon.type[0].name}
+        for pokeType in  pokemon.type
+          a(href=pokeType.url) #{pokeType.name} 
         
 
     else 
