@@ -136,11 +136,76 @@ exports.pokemon_delete_post = function(req, res) {
 };
 
 // Display Pokemon update form on GET.
-exports.pokemon_update_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Pokemon update GET');
+exports.pokemon_update_get = function(req, res, next) {
+    async.parallel({
+        pokemon: function(callback){
+            Pokemon.findById(req.params.id).populate('type').exec(callback);
+        },
+        typings: function(callback){
+            Typing.find(callback);
+        },
+        generations: function(callback){
+            Generation.find(callback);
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if (results.pokemon === null) {
+            var err = new Error('Pokemon not found');
+            err.status = 404;
+            return next(err);
+        }
+        for (var all_t_iter = 0; all_t_iter < results.typings.length; all_t_iter++) {
+            for (let pokemon_t_iter = 0; pokemon_t_iter < results.pokemon.type.length; pokemon_t_iter++) {
+                if (results.typings[all_t_iter]._id.toString() === results.pokemon.type[pokemon_t_iter]._id.toString()) {
+                    results.typings[all_t_iter].checked = 'true';
+                }
+            }
+        }
+        res.render('pokemon_form', {title: 'Create Pokemon', generations: results.generations, typings: results.typings, pokemon: results.pokemon})
+    })
 };
 
 // Handle Pokemon update on POST.
-exports.pokemon_update_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Pokemon update POST');
-};
+exports.pokemon_update_post = [
+    (req, res, next) => {
+        if ( !(req.body.typing instanceof Array ) ) {
+            if (typeof req.body.typing === 'undefined') {
+                req.body.typing = [];
+            } else {
+                req.body.typing = new Array(req.body.typing);
+            }
+        }
+        next();
+    },
+
+    body('name', 'Name Must not be Empty').trim().isLength({min:1}).escape(),
+    body('generation', 'Generation must not be empty').trim().isLength({min: 1}).escape(),
+    body('description', 'Description must not be empty').trim().isLength({min:1}).escape(),
+    body('height', 'Height must not be empty').trim().isLength({min:1}).escape(),
+    body('weight', 'Weight must not be empty').trim().isLength({min:1}).escape(),
+    body('typing.*').escape(),
+
+    (req, res, next) => {
+        const errors = validationResult(req);
+
+        var pokemon = new Pokemon({
+            name: req.body.name,
+            gen: req.body.generation,
+            description: req.body.description,
+            height: req.body.height,
+            weight: req.body.weight,
+            type: req.body.typing,
+            _id: req.params.id
+        });
+
+        if(!errors.isEmpty()) {
+
+        } else {
+            Pokemon.findByIdAndUpdate(req.params.id, pokemon, {}, function (err, thePokemon) {
+                if (err) { return next(err) }
+                // Successful - redirect to book detail page.
+                res.redirect(thePokemon.url);
+            });
+        }
+    }
+]

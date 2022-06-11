@@ -12,7 +12,7 @@ block content
       select#pokeGen(type='select' placeholder='Select Generation' required='true' name='generation')
         for generation in generations
           if pokemon
-            option( value=generation._id selected=( generation._id.toString()===pokemon.generation._id || generation._id.toString()===pokemon.generation ? 'selected' : false) ) #{generation.name}
+            option( value=generation._id selected=( generation._id.toString()===pokemon.gen._id || generation._id.toString()===pokemon.gen ? 'selected' : false) ) #{generation.name}
           else 
             option( value=generation._id) #{generation.name} 
     div 

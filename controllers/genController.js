@@ -107,10 +107,44 @@ exports.gen_delete_post = function(req, res) {
 
 // Display Generation update form on GET.
 exports.gen_update_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Generation update GET');
+    async.parallel({
+        gen: function(callback) {
+            Generation.findById(req.params.id).exec(callback)
+        },
+    }, function(err, results) {
+        if (err) { return next(err); }
+        if (results.gen==null){
+            var err = new Error('Generation not found');
+            err.status = 404;
+            return next(err);
+        }
+        res.render('gen_form', {title: 'Update Generation', gen: results.gen });
+    });
 };
 
 // Handle Generation update on POST.
-exports.gen_update_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Generation update POST');
-};
+exports.gen_update_post = [
+
+    body('name', 'Generation name required').trim().isLength({ min: 1 }).escape(),
+
+    (req, res, next) => {
+        const errors = validationResult(req);
+        var gen = new Generation(
+            { 
+                name: req.body.name,
+                _id: req.params.id
+            }
+        );
+        if (!errors.isEmpty()) {
+            // There are errors. Render the form again with sanitized values/error messages.
+            res.render('gen_form', {title: 'Update Generation', gen: gen, errors: errors.array() });
+            return;
+        } else {
+            Generation.findByIdAndUpdate(req.params.id, gen, {}, function(err, thegen) {
+                if (err) { return next(err) }
+                // Successful - redirect to book detail page.
+                res.redirect(thegen.url);
+            })
+        }
+    }
+]
