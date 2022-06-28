@@ -3,12 +3,12 @@ extends layout
 block content
   h1= title
 
-  section
-    div
+  section(class='homepage')
+    div(class='homeCard')
       a(href='/pokedex/pokemon/create') Create your own Pokemon
-    div
+    div(class='homeCard')
       a(href='/pokedex/gen/create') Add your own Generation
-    div
+    div(class='homeCard')
       a(href='/pokedex/typing/create') Add your own Types
-    div
-      a(href='/pokedex/poketeam/create') Create your own Pokemon Team
+    //- div(class='homeCard' )
+    //-   a(href='/pokedex/poketeam/create') Create your own Pokemon Team

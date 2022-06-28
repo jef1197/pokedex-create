@@ -3,9 +3,9 @@ extends layout
 block content 
   h1= title 
 
-  ul
+  ul(class='homepage')
     each gen in list 
-      li
+      li(class='homeCard')
         a(href=gen.url) #{gen.name}
 
     else 

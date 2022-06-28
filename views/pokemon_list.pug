@@ -3,12 +3,13 @@ extends layout
 block content 
   h1= title 
 
-  ul 
+  ul(class='homepage') 
     each pokemon in list 
-      li 
-        a(href=pokemon.url) #{pokemon.name} 
-        for pokeType in  pokemon.type
-          a(href=pokeType.url) #{pokeType.name} 
+      li(class='pokemonCard') 
+        a(href=pokemon.url class='pokeName') #{pokemon.name}
+        div(class='pokeTypeContainer')
+          for pokeType in  pokemon.type
+            a(href=pokeType.url class='pokeTypeName') #{pokeType.name} 
         
 
     else 

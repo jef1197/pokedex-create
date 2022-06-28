@@ -9,7 +9,7 @@ var {body, validationResult} = require('express-validator');
 
 // Display list of all Pokemons.
 exports.index = function(req, res) {
-    res.render('index', {title: 'PokeDex Home'});
+    res.render('index', {title: 'Home'});
 };
 
 // Display list of all Pokemons.

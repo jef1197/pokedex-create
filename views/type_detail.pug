@@ -5,9 +5,9 @@ block content
 
   div 
     h4 Pokemon
-    dl 
+    dl(class='detailPage') 
       each poke in pokemon
-        dt 
+        dt(class='pokemonCard') 
           a(href=poke.url) #{poke.name}
 
       else 

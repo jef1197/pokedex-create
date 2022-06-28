@@ -3,9 +3,9 @@ extends layout
 block content 
   h1= title 
 
-  ul
+  ul(class='homepage')
     each typing in list 
-      li
+      li(class='homeCard')
         a(href=typing.url) #{typing.name}
 
     else 
