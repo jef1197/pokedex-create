@@ -136,3 +136,91 @@ h4 {
   margin-bottom: 15px;
   margin-top: 10px;
 }
+
+/* pokemon create form  */
+
+.pokemon-create-form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.left-form-content{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: flex-start;
+  width: 300px;
+  margin-right: 20px;
+}
+
+.input-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  width: 100%;
+}
+
+.input-content label {
+  margin-bottom: 10px;
+}
+
+.input-content input {
+  padding: 5px 10px;
+  width: 100%;
+}
+
+.right-form-content{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: flex-start;
+  width: 300px;
+
+}
+
+.type-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px;
+}
+
+.type-input{
+  margin: 5px 5px;
+}
+
+/* Gen/Type Form */
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-content input {
+  padding: 5px 10px;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.form-content label {
+  margin-top: 10px;
+}
+
+button {
+  padding: 10px 50px;
+  color: white;
+  background-color: red;
+  border: 2px solid red;
+    font-size: 1.2rem;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: white;
+  color: red;
+}

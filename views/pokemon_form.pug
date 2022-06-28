@@ -3,35 +3,39 @@ extends layout
 block content 
   h1= title 
 
-  form(action="", method="post") 
-    div 
-      label(for="name") Name:
-      input#pokeName(type='text' name='name' placeholder='Name of Pokemon' required='true' value=(undefined===pokemon ? '' : pokemon.name))
-    div 
-      label(for="generation") Generation:
-      select#pokeGen(type='select' placeholder='Select Generation' required='true' name='generation')
-        for generation in generations
-          if pokemon
-            option( value=generation._id selected=( generation._id.toString()===pokemon.gen._id || generation._id.toString()===pokemon.gen ? 'selected' : false) ) #{generation.name}
-          else 
-            option( value=generation._id) #{generation.name} 
-    div 
-      label(for="description") Description:
-      textarea#pokeDesc(type='textarea' name='description' cols="30", rows="10" placeholder='Describe your pokemon') #{undefined===pokemon ? '' : pokemon.description}
-    div 
-      label(for="height") Height(cm):
-      input#pokeHeight(type='text' name='height'  placeholder='Pokemon height' value=(undefined===pokemon ? '' : pokemon.height)) 
-    div 
-      label(for="weight") Weight(kg):
-      input#pokeWeight(type='text' name='weight' placeholder='Pokemon Weight' value=(undefined===pokemon ? '' : pokemon.weight)) 
-    div 
-      label(for="") Type:
-      div
-        for typing in typings
-          div 
-            input.ckType(type='checkbox' name='typing' onclick="return ckLimit()" id=typing._id value=typing._id checked=typing.checked)
-            label(for=typing._id) #{typing.name}
-    button(type='submit') Submit
+  form(action="", method="post" class='pokemon-create-form') 
+    section(class='left-form-content')
+      div(class='input-content') 
+        label(for="name") Name:
+        input#pokeName(type='text' name='name' placeholder='Name of Pokemon' required='true' value=(undefined===pokemon ? '' : pokemon.name))
+      div(class='input-content') 
+        label(for="height") Height(cm):
+        input#pokeHeight(type='text' name='height'  placeholder='Pokemon height' required='true' value=(undefined===pokemon ? '' : pokemon.height)) 
+      div(class='input-content') 
+        label(for="weight") Weight(kg):
+        input#pokeWeight(type='text' name='weight' placeholder='Pokemon Weight' required='true' value=(undefined===pokemon ? '' : pokemon.weight)) 
+      div(class='input-content') 
+        label(for="generation") Generation:
+        select#pokeGen(type='select' placeholder='Select Generation' required='true' name='generation')
+          for generation in generations
+            if pokemon
+              option( value=generation._id selected=( generation._id.toString()===pokemon.gen._id || generation._id.toString()===pokemon.gen ? 'selected' : false) ) #{generation.name}
+            else 
+              option( value=generation._id) #{generation.name} 
+      button(type='submit') Submit
+
+    section(class='right-form-content')          
+      div(class='input-content') 
+        label(for="description") Description:
+        textarea#pokeDesc(type='textarea' name='description' cols="30", rows="10" placeholder='Describe your pokemon' required='true') #{undefined===pokemon ? '' : pokemon.description}
+      
+      div(class='input-content') 
+        label(for="") Type:
+        div(class='type-content') 
+          for typing in typings
+            div(class='type-input') 
+              input.ckType(type='checkbox' name='typing' onclick="return ckLimit()" id=typing._id value=typing._id checked=typing.checked)
+              label(for=typing._id) #{typing.name}
 
     script.
         function ckLimit() {

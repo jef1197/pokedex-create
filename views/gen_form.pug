@@ -4,7 +4,7 @@ block content
   h1= title 
 
   form(method='POST' action='')
-    div
+    div(class='form-content')
       label(for='name') Generation: 
       input#name(type='text', placeholder='1st, 2nd, 3rd' name='name' value=(undefined===gen ? '' : gen.name), required='true' )
     button.btn.btn-primary(type='submit') Submit

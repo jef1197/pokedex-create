@@ -4,7 +4,7 @@ block content
   h1= title 
 
   form(method='POST' action='')
-    div
+    div(class='form-content')
       label(for='name') Type: 
       input#name(type='text', placeholder='fire, water, grass' name='name' value=(undefined===typing  ? '' : typing.name), required='true' )
     button.btn.btn-primary(type='submit') Submit
