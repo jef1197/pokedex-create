@@ -224,3 +224,41 @@ button:hover{
   background-color: white;
   color: red;
 }
+
+/* detail page for pokemon */
+
+.pokemon-detail-type{
+  text-decoration: none;
+  margin: 10px;
+  font-size: 1.2rem;
+}
+
+.pokemon-detail-type:hover{
+  color: red;
+}
+
+.pokemon-detail-info {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  margin: 10px;
+  font-size: 1.2rem;
+}
+
+.pokemon-description {
+  font-size: 1.2rem;
+}
+
+.update-delete-btn{
+  display: flex;
+  justify-content: space-between;
+  width: 250px;
+  margin-top: 15px;
+}
+
+.update-delete-btn a{
+  color: rgb(0, 48, 206);
+}
+.update-delete-btn a:hover{
+  color: red;
+}

@@ -5,19 +5,17 @@ block content
 
   div 
     for pokeType in  pokemon.type
-      a(href=pokeType.url) #{pokeType.name} 
-    //-   a(href=pokemon.type[1].url) #{pokemon.type[1].name} 
-    //- else 
-    //-   a(href=pokemon.type[0].url) #{pokemon.type[0].name}
+      a(href=pokeType.url class='pokemon-detail-type') #{pokeType.name} 
     
   div 
-    p #{pokemon.description}
     p #{pokemon.gen.name}
-    p Height: #{pokemon.height} cm 
-    p Weight: #{pokemon.weight} kg
+    div(class='pokemon-detail-info')
+      p Height: #{pokemon.height} cm 
+      p Weight: #{pokemon.weight} kg
+    p(class='pokemon-description') #{pokemon.description}
+
 
   hr
-  p
+  div(class='update-delete-btn')
     a(href=pokemon.url+'/delete') Delete Pokemon
-  p
     a(href=pokemon.url+'/update') Update Pokemon
