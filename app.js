@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config()
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -11,7 +12,7 @@ var pokeRouter = require('.//routes/pokedex')
 var app = express();
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://jef00:yRH31jdEef7vmDZa@cluster0.3pzgn.mongodb.net/?retryWrites=true&w=majority';
+var mongoDB = process.env.MONGOOSEDB;
 mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
